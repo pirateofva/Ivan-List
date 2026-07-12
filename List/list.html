@@ -241,20 +241,38 @@ const entries = [
 
 {
 rank:1,
-title:"Zelda ahh Wave",
-creator:"IvanIsSus",
-verifier:"IvanIsSus",
+title:"Silly Shenanigans",
+creator:"SmashKing",
+verifier:"ThunderSeptical",
 points:350,
-image:"images/Zeldawave.png"
+image:"images/Shenanigans.png"
 },
 
 {
 rank:2,
-title:"Laced Up",
+title:"Burbank House",
 creator:"IvanIsSus",
 verifier:"IvanIsSus",
 points:340,
+image:"images/Burbank.png"
+},
+
+{
+rank:3,
+title:"Laced Up",
+creator:"IvanIsSus",
+verifier:"IvanIsSus",
+points:330,
 image:"images/lacedup.png"
+},
+
+{
+rank:4,
+title:"Zelda ahh Wave",
+creator:"IvanIsSus",
+verifier:"IvanIsSus",
+points:320,
+image:"images/Zeldawave.png"
 }
 
 ];
@@ -264,21 +282,28 @@ image:"images/lacedup.png"
 const players = [
 
 {
-rank:1,
 name:"IvanIsSus",
-points:690
+beaten:["Laced Up","Zelda ahh Wave", "Burbank House"]
 },
 
 {
-rank:2,
 name:"pirateofva",
-points:690
+beaten:["Laced Up","Zelda ahh Wave"]
 },
 
 {
-rank:3,
 name:"ThunderSeptical",
-points:690
+beaten:["Laced Up","Zelda ahh Wave", "Silly Shenanigans"]
+},
+
+{
+name:"Glitch",
+beaten:["Laced Up"]
+},
+
+{
+name:"SmashKing",
+beaten:[]
 }
 
 ];
@@ -365,14 +390,38 @@ const playerList=document.getElementById("playersList");
 
 playerList.innerHTML="";
 
-players.forEach(p=>{
+const leaderboard = players.map(player=>{
 
-playerList.innerHTML+=`
+let total = 0;
+
+player.beaten.forEach(level=>{
+
+const found = entries.find(e => e.title === level);
+
+if(found){
+total += found.points;
+}
+
+});
+
+return{
+name:player.name,
+points:total
+};
+
+});
+
+// Sort by highest points first
+leaderboard.sort((a, b) => b.points - a.points);
+
+leaderboard.forEach((p,index)=>{
+
+playerList.innerHTML += `
 
 <div class="player-card">
 
 <div class="player-name">
-#${p.rank} - ${p.name}
+#${index+1} - ${p.name}
 </div>
 
 <div class="player-points">
