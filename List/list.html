@@ -1,177 +1,93 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>My List</title>
-
-
+<title>Ivan Levels List</title>
 
 <style>
-
 *{
-
     margin:0;
-
     padding:0;
-
     box-sizing:border-box;
-
     font-family:Arial, Helvetica, sans-serif;
-
 }
-
-
 
 body{
-
     background:#f3f3f3;
-
     padding:40px;
-
 }
-
-
 
 h1{
-
     margin-bottom:25px;
-
 }
-
-
 
 #search{
-
     width:100%;
-
     padding:12px;
-
     font-size:18px;
-
     border-radius:8px;
-
     border:1px solid #bbb;
-
     margin-bottom:25px;
-
 }
-
-
 
 .card{
-
     display:flex;
-
     gap:20px;
-
     background:white;
-
     border:1px solid #ddd;
-
     border-radius:10px;
-
     padding:20px;
-
     margin-bottom:20px;
-
     transition:.15s;
-
 }
-
-
 
 .card:hover{
-
     transform:translateY(-2px);
-
     box-shadow:0 6px 15px rgba(0,0,0,.1);
-
 }
-
-
 
 .thumb{
-
     width:220px;
-
     height:120px;
-
     object-fit:cover;
-
     border-radius:6px;
-
 }
-
-
 
 .info{
-
     display:flex;
-
     flex-direction:column;
-
     justify-content:center;
-
 }
-
-
 
 .title{
-
     font-size:38px;
-
     font-weight:bold;
-
 }
-
-
 
 .creator{
-
     font-size:24px;
-
     margin-top:5px;
-
 }
-
-
 
 .stats{
-
     color:#666;
-
     margin-top:10px;
-
     font-size:18px;
-
 }
-
-
 
 .container{
     display:flex;
     gap:30px;
 }
 
-
-
 .levels{
     flex:1;
 }
 
-
-
 .players{
     width:300px;
 }
-
-
 
 .player-card{
     background:white;
@@ -181,39 +97,23 @@ h1{
     margin-bottom:15px;
 }
 
-
-
 .player-name{
     font-size:24px;
     font-weight:bold;
 }
 
-
-
 .player-points{
     color:#666;
     margin-top:5px;
 }
-
-
-
 </style>
 
-
-
 </head>
-
 <body>
 
-
-
-<h1>Ivan Levels List</h1>
-
-
+<h1>My Ranking List</h1>
 
 <input id="search" placeholder="Search...">
-
-
 
 <div class="container">
 
@@ -231,11 +131,7 @@ h1{
 
 </div>
 
-
-
 <script>
-
-
 
 const entries = [
 
@@ -245,7 +141,8 @@ title:"Silly Shenanigans",
 creator:"SmashKing",
 verifier:"ThunderSeptical",
 points:350,
-image:"images/Shenanigans.png"
+image:"images/Shenanigans.png",
+showcase:"https://www.youtube.com/watch?v==-wANJnhkU18"
 },
 
 {
@@ -254,7 +151,8 @@ title:"Burbank House",
 creator:"IvanIsSus",
 verifier:"IvanIsSus",
 points:340,
-image:"images/Burbank.png"
+image:"images/Burbank.png",
+showcase:"https://www.youtube.com/watch?v=J8cun0_lYrg"
 },
 
 {
@@ -263,7 +161,8 @@ title:"Laced Up",
 creator:"IvanIsSus",
 verifier:"IvanIsSus",
 points:330,
-image:"images/lacedup.png"
+image:"images/lacedup.png",
+showcase:"https://www.youtube.com/watch?v=A0JJb9TYv6I"
 },
 
 {
@@ -272,12 +171,11 @@ title:"Zelda ahh Wave",
 creator:"IvanIsSus",
 verifier:"IvanIsSus",
 points:320,
-image:"images/Zeldawave.png"
+image:"images/Zeldawave.png",
+showcase:"https://www.youtube.com/watch?v=JX0phHmMqKg"
 }
 
 ];
-
-
 
 const players = [
 
@@ -308,81 +206,43 @@ beaten:[]
 
 ];
 
-
-
 const list=document.getElementById("list");
-
-
 
 function render(search=""){
 
-
-
 list.innerHTML="";
 
-
-
 entries
-
 .filter(e=>e.title.toLowerCase().includes(search.toLowerCase()))
-
 .forEach(e=>{
-
-
 
 list.innerHTML+=`
 
-
-
 <div class="card">
 
-
-
-<img class="thumb" src="${e.image}">
-
-
+<a href="${e.showcase}" target="_blank">
+    <img class="thumb" src="${e.image}">
+</a>
 
 <div class="info">
 
-
-
 <div class="title">#${e.rank} – ${e.title}</div>
 
-
-
 <div class="creator">published by <b>${e.creator}</b></div>
-
-
 
 <div class="stats">verified by <b>${e.verifier}</b></div>
 
 <div class="stats">points: <b>${e.points}</b></div>
 
-
-
 </div>
 
-
-
 </div>
-
-
 
 `;
 
-
-
 });
 
-
-
 }
-
-
-
-render();
-
-
 
 function renderPlayers(){
 
@@ -438,19 +298,13 @@ Points: <b>${p.points}</b>
 
 renderPlayers();
 
+render();
 
 document.getElementById("search").addEventListener("input",(e)=>{
-
 render(e.target.value);
-
 });
-
-
 
 </script>
 
-
-
 </body>
-
 </html>
