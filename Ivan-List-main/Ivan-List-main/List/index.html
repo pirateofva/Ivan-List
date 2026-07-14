@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ivan Levels List</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{background:#f3f3f3;padding:40px}
+h1{margin-bottom:25px}
+#search{width:100%;padding:12px;font-size:18px;border-radius:8px;border:1px solid #bbb;margin-bottom:25px}
+.card{display:flex;gap:20px;background:#fff;border:1px solid #ddd;border-radius:10px;padding:20px;margin-bottom:20px;transition:.15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,0,0,.1)}
+.thumb{width:220px;height:120px;object-fit:cover;border-radius:6px}
+.info{display:flex;flex-direction:column;justify-content:center}
+.title{font-size:38px;font-weight:bold}
+.creator{font-size:24px;margin-top:5px}
+.stats{color:#666;margin-top:10px;font-size:18px}
+.container{display:flex;gap:30px}
+.levels{flex:1}
+.players{width:300px}
+.player-card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:15px;margin-bottom:15px}
+.player-name{font-size:24px;font-weight:bold;cursor:pointer}
+.player-name:hover{text-decoration:underline}
+.player-points{color:#666;margin-top:5px}
+.popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+.popup-content{background:#fff;width:500px;max-width:90%;padding:25px;border-radius:12px;position:relative;max-height:80vh;overflow:auto}
+.close{position:absolute;right:15px;top:10px;font-size:32px;cursor:pointer}
+#popupLevels .level{padding:8px 0;border-bottom:1px solid #ddd}
+</style>
+</head>
+<body>
+
+<h1>My Ranking List</h1>
+
+<input id="search" placeholder="Search...">
+
+<div class="container">
+    <div class="levels">
+        <div id="list"></div>
+    </div>
+
+    <div class="players">
+        <h1>Players</h1>
+        <div id="playersList"></div>
+    </div>
+</div>
+
+<div id="playerPopup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 id="popupName"></h2>
+        <p><b>Total Points:</b> <span id="popupPoints"></span></p>
+        <p><b>Hardest:</b> <span id="popupHardest"></span></p>
+
+        <h3 style="margin-top:15px">Completed Levels</h3>
+        <div id="popupLevels"></div>
+    </div>
+</div>
+
+<script>
+
+const entries=[
+{id:undefined,rank:1,title:"Tung Tung Tung Sahur",creator:"TheGuyIsSus",verifier:"TheGuyIsSus",points:350,image:"images/Tung.png",showcase:"https://www.youtube.com/watch?v=AZFy_lboRPs"},
+{id:129927371,rank:2,title:"Rainbow Level",creator:"Fun Guy",verifier:"Fun Guy",points:340,image:"images/Rainbow.png",showcase:"https://www.youtube.com/watch?v=VcdFyrFg5Z0"},
+{id:144654136,rank:3,title:"Silly Shenanigans",creator:"SmashKing",verifier:"ThunderSeptical",points:330,image:"images/Shenanigans.png",showcase:"https://www.youtube.com/watch?v=-wANJnhkU18"},
+{id:144736644,rank:4,title:"Burbank House",creator:"IvanIsSus",verifier:"IvanIsSus",points:320,image:"images/Burbank.png",showcase:"https://www.youtube.com/watch?v=J8cun0_lYrg"},
+{id:123169755,rank:5,title:"Laced Up",creator:"IvanIsSus",verifier:"IvanIsSus",points:310,image:"images/lacedup.png",showcase:"https://www.youtube.com/watch?v=A0JJb9TYv6I"},
+{id:111403627,rank:6,title:"Zelda ahh Wave",creator:"IvanIsSus",verifier:"IvanIsSus",points:300,image:"images/Zeldawave.png",showcase:"https://www.youtube.com/watch?v=JX0phHmMqKg"},
+{id:144754280,rank:7,title:"Silly Shenanigans Easy",creator:"SmashKing",verifier:"SmashKing",points:290,image:"images/Shenan.png",showcase:"https://www.youtube.com/watch?v=EurpT38gCoA"}
+];
+
+const players=[
+{name:"IvanIsSus",beaten:["Laced Up","Zelda ahh Wave","Burbank House"]},
+{name:"pirateofva",beaten:["Laced Up","Zelda ahh Wave","Silly Shenanigans Easy"]},
+{name:"ThunderSeptical",beaten:["Laced Up","Zelda ahh Wave","Silly Shenanigans", "Silly Shenanigans Easy"]},
+{name:"Glitch",beaten:["Laced Up"]},
+{name:"SmashKing",beaten:["Silly Shenanigans Easy"]},
+{name:"TheGuyIsSus",beaten:["Tung Tung Tung Sahur","Zelda ahh Wave","Silly Shenanigans Easy", "Silly Shenanigans", "Rainbow Level"]},
+{name:"Fun Guy",beaten:["Zelda ahh Wave", "Burbank House", "Silly Shenanigans Easy", "Rainbow Level"]}
+];
+
+const list=document.getElementById("list");
+
+function render(search=""){
+    list.innerHTML="";
+    entries
+    .filter(e=>e.title.toLowerCase().includes(search.toLowerCase()))
+    .forEach(e=>{
+        list.innerHTML+=`
+        <div class="card">
+            <a href="${e.showcase}" target="_blank">
+                <img class="thumb" src="${e.image}">
+            </a>
+
+            <div class="info">
+                <div class="title">#${e.rank} – ${e.title}</div>
+                <div class="creator">published by <b>${e.creator}</b></div>
+                <div class="stats">verified by <b>${e.verifier}</b></div>
+                <div class="stats">points: <b>${e.points}</b></div>
+		<div class="stats">ID: <b>${e.id}</b></div>
+            </div>
+        </div>`;
+    });
+}
+
+function renderPlayers(){
+    const leaderboard=players
+    .map(pl=>({
+        name:pl.name,
+        points:pl.beaten.reduce((t,l)=>{
+            const f=entries.find(e=>e.title===l);
+            return t+(f?f.points:0);
+        },0)
+    }))
+    .sort((a,b)=>b.points-a.points);
+
+    const el=document.getElementById("playersList");
+    el.innerHTML="";
+
+    leaderboard.forEach((p,i)=>{
+        el.innerHTML+=`
+        <div class="player-card">
+            <div class="player-name" onclick="showPlayer('${p.name.replace(/'/g,"\\'")}')">
+                #${i+1} - ${p.name}
+            </div>
+            <div class="player-points">
+                Points: <b>${p.points}</b>
+            </div>
+        </div>`;
+    });
+}
+
+function showPlayer(name){
+
+    const p=players.find(x=>x.name===name);
+
+    let total=0;
+    let hardest=null;
+
+    const levels=document.getElementById("popupLevels");
+    levels.innerHTML="";
+
+    p.beaten.forEach(n=>{
+
+        const e=entries.find(x=>x.title===n);
+
+        if(e){
+
+            total+=e.points;
+
+            if(!hardest || e.rank<hardest.rank)
+                hardest=e;
+
+            levels.innerHTML+=`
+            <div class="level">
+                #${e.rank} - ${e.title} (${e.points} pts)
+            </div>`;
+        }
+
+    });
+
+    document.getElementById("popupName").textContent=p.name;
+    document.getElementById("popupPoints").textContent=total;
+    document.getElementById("popupHardest").textContent=
+        hardest?`${hardest.title} (#${hardest.rank})`:"None";
+
+    document.getElementById("playerPopup").style.display="flex";
+}
+
+function closePopup(){
+    document.getElementById("playerPopup").style.display="none";
+}
+
+document.getElementById("playerPopup").onclick=e=>{
+    if(e.target.id==="playerPopup")
+        closePopup();
+};
+
+render();
+renderPlayers();
+
+document.getElementById("search").addEventListener("input",e=>{
+    render(e.target.value);
+});
+
+</script>
+
+</body>
+</html>
