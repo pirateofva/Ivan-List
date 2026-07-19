@@ -259,6 +259,10 @@ h1{
 <span id="popupPoints"></span>
 </p>
 
+<p>
+<b>Rank:</b>
+<span id="popupRank"></span>
+</p>
 
 <p>
 <b>Hardest:</b>
@@ -351,7 +355,6 @@ Victors
 
 const entries=[
 
-
 {
 id:144750949,
 rank:1,
@@ -365,7 +368,6 @@ victors:[
 "IvanIsSus"
 ]
 },
-
 
 {
 id:undefined,
@@ -381,27 +383,40 @@ victors:[
 ]
 },
 
+{
+id:145004164,
+rank:3,
+title:"Dark Angel",
+creator:"Fun Guy",
+verifier:"Fun Guy",
+points:330,
+image:"images/Dark.png",
+showcase:"https://www.youtube.com/watch?v=ldjTEctO8TM",
+victors:[
+]
+},
 
 {
 id:144937678,
-rank:3,
+rank:4,
 title:"Wave Chalg",
 creator:"TheGuyIsSus",
 verifier:"TheGuyIsSus",
-points:330,
+points:320,
 image:"images/Invis.png",
 showcase:"https://www.youtube.com/watch?v=qR8WpHUDdQg",
-victors:["ThunderSeptical"]
+victors:[
+"ThunderSeptical"
+]
 },
-
 
 {
 id:144886823,
-rank:4,
+rank:5,
 title:"Fantasy",
 creator:"TheGuyIsSus",
 verifier:"TheGuyIsSus",
-points:320,
+points:310,
 image:"images/Fantasy.png",
 showcase:"https://www.youtube.com/watch?v=cd0BJE9eyMc",
 victors:[
@@ -410,14 +425,13 @@ victors:[
 ]
 },
 
-
 {
 id:129927371,
-rank:5,
+rank:6,
 title:"Rainbow Level",
 creator:"Fun Guy",
 verifier:"Fun Guy",
-points:310,
+points:300,
 image:"images/Rainbow.png",
 showcase:"https://www.youtube.com/watch?v=VcdFyrFg5Z0",
 victors:[
@@ -427,14 +441,13 @@ victors:[
 ]
 },
 
-
 {
 id:144654136,
-rank:6,
+rank:7,
 title:"Silly Shenanigans",
 creator:"SmashKing",
 verifier:"ThunderSeptical",
-points:300,
+points:290,
 image:"images/Shenanigans.png",
 showcase:"https://www.youtube.com/watch?v=-wANJnhkU18",
 victors:[
@@ -444,14 +457,13 @@ victors:[
 ]
 },
 
-
 {
 id:144736644,
-rank:7,
+rank:8,
 title:"Burbank House",
 creator:"IvanIsSus",
 verifier:"IvanIsSus",
-points:290,
+points:280,
 image:"images/Burbank.png",
 showcase:"https://www.youtube.com/watch?v=J8cun0_lYrg",
 victors:[
@@ -461,14 +473,13 @@ victors:[
 ]
 },
 
-
 {
 id:123169755,
-rank:8,
+rank:9,
 title:"Laced Up",
 creator:"IvanIsSus",
 verifier:"IvanIsSus",
-points:280,
+points:270,
 image:"images/lacedup.png",
 showcase:"https://www.youtube.com/watch?v=A0JJb9TYv6I",
 victors:[
@@ -480,14 +491,13 @@ victors:[
 ]
 },
 
-
 {
 id:111403627,
-rank:9,
+rank:10,
 title:"Zelda ahh Wave",
 creator:"IvanIsSus",
 verifier:"IvanIsSus",
-points:270,
+points:260,
 image:"images/Zeldawave.png",
 showcase:"https://www.youtube.com/watch?v=JX0phHmMqKg",
 victors:[
@@ -498,14 +508,13 @@ victors:[
 ]
 },
 
-
 {
 id:144869296,
-rank:10,
+rank:11,
 title:"Alchemist",
 creator:"IvanIsSus",
 verifier:"IvanIsSus",
-points:260,
+points:250,
 image:"images/Alchemist.png",
 showcase:"https://www.youtube.com/watch?v=WBOhMeNeFcA",
 victors:[
@@ -516,14 +525,13 @@ victors:[
 ]
 },
 
-
 {
 id:144754280,
-rank:11,
+rank:12,
 title:"Silly Shenanigans Easy",
 creator:"SmashKing",
 verifier:"SmashKing",
-points:250,
+points:240,
 image:"images/Shenan.png",
 showcase:"https://www.youtube.com/watch?v=EurpT38gCoA",
 victors:[
@@ -533,6 +541,7 @@ victors:[
 "Fun Guy"
 ]
 }
+
 ];
 
 
@@ -624,7 +633,8 @@ beaten:[
 "Rainbow Level",
 "Laced Up",
 "Alchemist",
-"Silly Shenanigans"
+"Silly Shenanigans",
+"Dark Angel"
 ]
 },
 
@@ -717,7 +727,21 @@ function render(search=""){
 
 }
 
+function getRankTitle(points){
 
+    if(points >= 5000) return "👑 Grand Master";
+    if(points >= 4200) return "🌟 Legend";
+    if(points >= 3500) return "💠 Diamond";
+    if(points >= 2800) return "💎 Champion";
+    if(points >= 2200) return "🔴 Elite";
+    if(points >= 1700) return "🟧 Veteran";
+    if(points >= 1200) return "🟨 Expert";
+    if(points >= 750) return "🟣 Skilled";
+    if(points >= 400) return "🔵 Challenger";
+    if(points >= 150) return "🟢 Beginner";
+
+    return "⚪ Newcomer";
+}
 
 function renderPlayers(){
 
@@ -763,13 +787,12 @@ function renderPlayers(){
 
             </div>
 
+<div class="player-points">
 
-            <div class="player-points">
+    Points:
+    <b>${p.points}</b>
 
-                Points:
-                <b>${p.points}</b>
-
-            </div>
+</div>
 
 
         </div>
@@ -869,6 +892,8 @@ function showPlayer(name){
     document.getElementById("popupPoints")
     .textContent=total;
 
+    document.getElementById("popupRank")
+    .textContent=getRankTitle(total);
 
     document.getElementById("popupHardest")
     .textContent=
