@@ -39,6 +39,31 @@ h1{
     margin-bottom:25px;
 }
 
+.navbar{
+    display:flex;
+    gap:30px;
+    margin-bottom:25px;
+    border-bottom:2px solid #ddd;
+}
+
+.nav-item{
+    padding:12px 0;
+    cursor:pointer;
+    font-size:18px;
+    font-weight:bold;
+    color:#666;
+    border-bottom:3px solid transparent;
+    transition:.2s;
+}
+
+.nav-item:hover{
+    color:#000;
+}
+
+.nav-item.active{
+    color:#2f7df6;
+    border-bottom:3px solid #2f7df6;
+}
 
 .card{
     display:flex;
@@ -210,8 +235,31 @@ h1{
 <body>
 
 
-<h1>My Ranking List</h1>
+<div class="navbar">
 
+    <div class="nav-item active"
+         onclick="switchList('levels', this)">
+        Ivan Levels List
+    </div>
+
+    <div class="nav-item"
+         onclick="switchList('impossible', this)">
+        Ivan Impossible List
+    </div>
+
+    <div class="nav-item"
+         onclick="switchList('challenge', this)">
+        Ivan Challenge List
+    </div>
+
+    <div class="nav-item"
+         onclick="switchList('legacy', this)">
+        Ivan Legacy List
+    </div>
+
+</div>
+
+<h1 id="listTitle">Ivan Levels List</h1>
 
 <input id="search" placeholder="Search...">
 
@@ -353,9 +401,18 @@ Victors
 <script>
 
 
-const entries=[
+const levelEntries=[];
 
-{
+
+
+const levelPlayers=[];
+
+let entries = levelEntries;
+let players = levelPlayers;
+
+const impossibleEntries = [];
+const challengeEntries = [];
+const legacyEntries = [{
 id:144750949,
 rank:1,
 title:"Heartbeat",
@@ -544,10 +601,8 @@ victors:[
 
 ];
 
-
-
-const players=[
-
+const challengePlayers = [];
+const legacyPlayers = [
 
 {
 name:"IvanIsSus",
@@ -1076,7 +1131,49 @@ document.getElementById("search")
 
 });
 
+function switchList(type, element){
 
+    document.querySelectorAll(".nav-item").forEach(item=>{
+        item.classList.remove("active");
+    });
+
+    element.classList.add("active");
+
+    const playersPanel = document.querySelector(".players");
+
+    if(type=="levels"){
+        document.getElementById("listTitle").textContent="Ivan Levels List";
+        entries = levelEntries;
+        players = levelPlayers;
+        playersPanel.style.display="block";
+    }
+
+    if(type=="impossible"){
+        document.getElementById("listTitle").textContent="Ivan Impossible List";
+        entries = impossibleEntries;
+        playersPanel.style.display="none";
+    }
+
+    if(type=="challenge"){
+        document.getElementById("listTitle").textContent="Ivan Challenge List";
+        entries = challengeEntries;
+        players = challengePlayers;
+        playersPanel.style.display="block";
+    }
+
+    if(type=="legacy"){
+        document.getElementById("listTitle").textContent="Ivan Legacy List";
+        entries = legacyEntries;
+        players = legacyPlayers;
+        playersPanel.style.display="block";
+    }
+
+    render(document.getElementById("search").value);
+
+    if(playersPanel.style.display!="none"){
+        renderPlayers();
+    }
+}
 
 render();
 renderPlayers();
