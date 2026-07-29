@@ -163,6 +163,27 @@ h1{
     margin-top:5px;
 }
 
+.submit-btn{
+    margin-left:auto;
+    background:#2f7df6;
+    color:white;
+    text-decoration:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    height:42px;
+    padding:0 18px;
+
+    border-radius:8px;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.submit-btn:hover{
+    background:#1f68d8;
+}
 
 .popup{
 
@@ -256,6 +277,13 @@ h1{
          onclick="switchList('legacy', this)">
         Ivan Legacy List
     </div>
+
+	
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSc_ZaUly0hrZ-hTkp0WaEusfrH1UMMUxc7QKnlcw5g7H_x_NQ/viewform"
+   target="_blank"
+   class="submit-btn">
+   Submit Run
+</a>
 
 </div>
 
@@ -399,6 +427,7 @@ Victors
 
 
 <script>
+
 
 
 const levelEntries=[];
