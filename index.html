@@ -588,7 +588,9 @@ beaten:[
 let entries = levelEntries;
 let players = levelPlayers;
 
-const impossibleEntries = [];
+const impossibleEntries = [
+
+];
 const challengeEntries = [
 
 {
@@ -1515,7 +1517,7 @@ function switchList(type, element){
     }
 
     if(type=="legacy"){
-        document.getElementById("listTitle").textContent="Ivan Legacy List";
+        document.getElementById("listTitle").textContent="All Levels List";
         entries = legacyEntries;
         players = legacyPlayers;
         playersPanel.style.display="block";
